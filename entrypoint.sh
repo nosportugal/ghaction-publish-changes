@@ -1,5 +1,11 @@
 #!/bin/sh
 
+BRANCH_NAME=$1
+GITHUB_TOKEN=$2
+GITHUB_ACTOR=$3
+GITHUB_REPOSITORY=$4
+GITHUB_SHA=$5
+
 # check values
 if [ -z "${GITHUB_TOKEN}" ]; then
     echo "error: not found GITHUB_TOKEN"
@@ -30,3 +36,7 @@ timestamp=$(date -u)
 git commit -m "Automated publish: ${timestamp} ${GITHUB_SHA}" || exit 0
 git pull --rebase publisher ${BRANCH_NAME}
 git push publisher ${BRANCH_NAME}
+
+# get latest sha after commit
+git fetch
+echo "::set-output name=latest_sha::$(git rev-parse HEAD)"

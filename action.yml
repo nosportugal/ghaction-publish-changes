@@ -1,0 +1,31 @@
+# action.yml
+name: 'Terraform Cloud Workspace setup'
+description: 'Setup a Terraform Cloud/Enterprise workspace'
+inputs:
+  branch_name:
+    description: 'Branch name'
+    required: true
+  github_token:
+    description: 'GitHub token'
+    required: true
+  github_actor:
+    description: 'GitHub actor'
+    required: true
+  github_repository:
+    description: 'GitHub repository'
+    required: true
+  github_sha:
+    description: 'GitHub sha'
+    required: true
+outputs:
+  latest_sha:
+    description: 'The GitHub sha after publishing'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.branch_name }}
+    - ${{ inputs.github_token }}
+    - ${{ inputs.github_actor }}
+    - ${{ inputs.github_repository }}
+    - ${{ inputs.github_sha }}
